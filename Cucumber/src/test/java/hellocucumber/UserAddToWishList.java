@@ -4,7 +4,7 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -51,6 +51,18 @@ public class UserAddToWishList {
         }
     }
 
+    @Before
+    public void setUp() {
+        if (driver == null) {
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--start-maximized");
+            options.addArguments("--disable-extensions");
+            options.addArguments("--disable-popup-blocking");
+            driver = new ChromeDriver(options);
+            wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        }
+    }
+
     @And("the user is on the OpenCart homepage")
     public void userIsOnOpenCartHomepage() {
         driver.get("http://localhost/openCartSite");
@@ -92,8 +104,13 @@ public class UserAddToWishList {
 
     @Given("the user exists in the OpenCart database")
     public void userExistsInOpenCartDatabase() {
-        driver = new ChromeDriver();
         driver.get("http://localhost/openCartSite");
+        try {
+            // Wait for 2 seconds
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         // Register a new user
         driver.findElement(By.xpath("//li[2]/div[1]/a[1]/span[1]")).click();
         driver.findElement(By.xpath("//li[2]/div[1]/ul[1]/li[1]/a[1]")).click();
