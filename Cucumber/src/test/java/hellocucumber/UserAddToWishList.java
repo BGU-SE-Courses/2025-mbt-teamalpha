@@ -95,12 +95,6 @@ public class UserAddToWishList {
         verifyProductInWishlist(Config.SAMPLE_PRODUCT.getString(), Config.DEFAULT_QUANTITY.getInt());
     }
 
-    // @And("the wishlist should display the correct product details and quantity")
-    // public void wishlistDisplaysCorrectDetails() {
-    //     System.out.println("Verifying wishlist displays correct details...");
-    //     verifyProductInWishlist(Config.SAMPLE_PRODUCT.getString(), Config.DEFAULT_QUANTITY.getInt());
-    // }
-
     @Given("the user exists in the OpenCart database")
     public void userExistsInOpenCartDatabase() {
         driver.get("http://localhost/opencartsite");
