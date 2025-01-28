@@ -4,7 +4,7 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -51,9 +51,21 @@ public class UserAddToWishList {
         }
     }
 
+    @Before("@UserAddToWishlist")
+    public void setUp() {
+        if (driver == null) {
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--start-maximized");
+            options.addArguments("--disable-extensions");
+            options.addArguments("--disable-popup-blocking");
+            driver = new ChromeDriver(options);
+            wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        }
+    }
+
     @And("the user is on the OpenCart homepage")
     public void userIsOnOpenCartHomepage() {
-        driver.get("http://localhost/openCartSite");
+        driver.get("http://localhost/opencartsite");
     }
 
     @And("the user is logged in to their account")
@@ -83,16 +95,15 @@ public class UserAddToWishList {
         verifyProductInWishlist(Config.SAMPLE_PRODUCT.getString(), Config.DEFAULT_QUANTITY.getInt());
     }
 
-    @And("the wishlist should display the correct product details and quantity")
-    public void wishlistDisplaysCorrectDetails() {
-        System.out.println("Verifying wishlist displays correct details...");
-        verifyProductInWishlist(Config.SAMPLE_PRODUCT.getString(), Config.DEFAULT_QUANTITY.getInt());
-    }
-
     @Given("the user exists in the OpenCart database")
     public void userExistsInOpenCartDatabase() {
-        driver = new ChromeDriver();
-        driver.get("http://localhost/openCartSite");
+        driver.get("http://localhost/opencartsite");
+        try {
+            // Wait for 2 seconds
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         // Register a new user
         driver.findElement(By.xpath("//li[2]/div[1]/a[1]/span[1]")).click();
         driver.findElement(By.xpath("//li[2]/div[1]/ul[1]/li[1]/a[1]")).click();
@@ -103,8 +114,15 @@ public class UserAddToWishList {
         driver.findElement(By.xpath("//*[@id='input-password']")).sendKeys(Config.TEST_PASSWORD.getString());
 
         // Scroll down until button visible
-        WebElement registerButton = driver.findElement(By.xpath("//form[1]/div[1]/div[1]/input[1]"));
-        ((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 350);");
+        WebElement registerButton = driver.findElement(By.xpath("//*[@id='form-register']/div/button[1]"));
+        ((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 700);");
+
+        try {
+            // Wait for 2 seconds
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         registerButton.click();
         driver.findElement(By.xpath("//form[1]/div[1]/button[1]")).click();
@@ -124,6 +142,7 @@ public class UserAddToWishList {
     }
 
     public void searchAndAddToWishlist(String productName, int quantity) {
+
         // Go to homepage
         driver.findElement(By.xpath("//header[1]/div[1]/div[1]/div[1]/div[1]/a[1]/img[1]")).click();
         // Search for the product
@@ -164,21 +183,7 @@ public class UserAddToWishList {
         } else {
             System.out.println("Wishlist verification failed: " + productName + " is not present.");
         }
-    }
 
-    public void logoutFromAccount() {
-        // Navigate to logout page
-        driver.findElement(By.xpath("//li[2]/div[1]/a[1]/span[1]")).click();
-        driver.findElement(By.xpath("//li[2]/div[1]/ul[1]/li[5]/a[1]")).click(); 
-        System.out.println("User logged out successfully.");
-    }
-
-    public void closeSession() {
-        logoutFromAccount();
-        // Close the browser session
-        if (driver != null) {
-            driver.quit();
-        }
-        System.out.println("Browser session closed.");
+        driver.quit();
     }
 }

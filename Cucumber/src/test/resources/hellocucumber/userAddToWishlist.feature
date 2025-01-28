@@ -9,7 +9,6 @@ Feature: Adding products to wishlist with a specified quantity
     And the user selects a quantity of "<quantity>"
     And the user clicks on the "Add to Wishlist" button
     Then the product should be added to the wishlist with the specified quantity
-    And the wishlist should display the correct product details and quantity
 
     Examples:
       | quantity |

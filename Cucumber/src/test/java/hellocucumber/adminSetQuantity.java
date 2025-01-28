@@ -161,7 +161,7 @@ public class adminSetQuantity {
         driver.quit();
     }
 
-    @After
+    @After("@AdminSetQuantity")
     public void resetProductQuantity() {
         driver = new ChromeDriver();
         driver.get("http://localhost/opencartsite/admin-new");
