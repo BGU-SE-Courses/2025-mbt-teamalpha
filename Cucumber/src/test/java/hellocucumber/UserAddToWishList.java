@@ -65,7 +65,7 @@ public class UserAddToWishList {
 
     @And("the user is on the OpenCart homepage")
     public void userIsOnOpenCartHomepage() {
-        driver.get("http://localhost/openCartSite");
+        driver.get("http://localhost/opencartsite");
     }
 
     @And("the user is logged in to their account")
@@ -103,7 +103,7 @@ public class UserAddToWishList {
 
     @Given("the user exists in the OpenCart database")
     public void userExistsInOpenCartDatabase() {
-        driver.get("http://localhost/openCartSite");
+        driver.get("http://localhost/opencartsite");
         try {
             // Wait for 2 seconds
             Thread.sleep(1000);
