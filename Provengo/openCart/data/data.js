@@ -28,6 +28,8 @@ const xpaths = {
     agreeCheckbox: '//form[1]/div[1]/div[1]/input[1]',
     continueButton: '//form[1]/div[1]/button[1]',
     continueAfterSuccessButton: '//div[2]/div[1]/div[1]/div[1]/a[1]',
+    loginCheckBox: '//*[@id="form-login"]/div[3]/button',
+    loginLink: '//*[@id="top"]/div/div[2]/ul/li[2]/div/ul/li[2]/a'
   },
   wishlist: {
     DesktopButton: '//*[@id="narbar-menu"]/ul/li[1]/a',
@@ -36,6 +38,7 @@ const xpaths = {
     addTowishListButton: '//*[@id="content"]/div[1]/div[2]/form/div/button[1]/i',
     seeWishList: '//*[@id="wishlist-total"]/span',
     stockStatusField: '//*[@id="wishlist"]/div/table/tbody/tr/td[4]',  // New XPath to check stock status
-    exitSuccessWindow: '//*[@id="alert"]/div/button'
+    exitSuccessWindow: '//*[@id="alert"]/div/button',
+    removeElement: '//*[@id="wishlist"]/div/table/tbody/tr/td[6]/form/button[2]/i'
   }
 };
