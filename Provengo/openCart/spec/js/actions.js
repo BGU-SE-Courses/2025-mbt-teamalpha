@@ -13,6 +13,7 @@ function adminLogin(session) {
 function setProductQuantity(session, data) {
   try {
     bp.log.info("Navigating to Catalog > Products...");
+    session.scrollToElement(xpaths.admin.catalogMenu);
     session.waitForClickability(xpaths.admin.catalogMenu, 5000);
     session.click(xpaths.admin.catalogMenu);
     session.waitForClickability(xpaths.admin.productsSubmenu, 5000);
@@ -37,26 +38,25 @@ function setProductQuantity(session, data) {
   }
 }
 
-// Function to register a new user
-function registerUser(session, userData) {
-  bp.log.info("Registering a new user...");
+function loginUser(session, userData){
+  bp.log.info("Login a user...");
 
   session.click(xpaths.user.myAccountButton);
-  session.click(xpaths.user.registerLink);
+  session.click(xpaths.user.loginLink);
 
-  session.writeText(xpaths.user.firstnameField, userData.firstname);
-  session.writeText(xpaths.user.lastnameField, userData.lastname);
   session.writeText(xpaths.user.emailField, userData.email);
-  session.writeText(xpaths.user.passwordField, userData.password + "\uE00F");
-  session.click(xpaths.user.agreeCheckbox);
-  session.click(xpaths.user.continueButton);
+  session.writeText(xpaths.user.passwordField, userData.password);
 
-  bp.log.info("User registration successful!");
+  session.scrollToElement(xpaths.user.loginCheckBox);
+  session.click(xpaths.user.loginCheckBox);
+
+  bp.log.info("User login successful!");
 }
 
 // Function to add a product to the wishlist
 function addToWishlist(session) {
   bp.log.info("Adding product to wishlist...");
+  session.scrollToElement(xpaths.wishlist.DesktopButton);
   session.waitForVisibility(xpaths.wishlist.DesktopButton, 1000);
   session.click(xpaths.wishlist.DesktopButton);
 
@@ -87,5 +87,11 @@ function checkWishlistStockStatus(session, expectedStatus) {
 
   // Assert the expected stock status
   session.assertText(xpaths.wishlist.stockStatusField, expectedStatus);
+}
+
+function removeFromWishlist(session)
+{
+  bp.log.info("remove from wishlist...");
+  session.click(xpaths.wishlist.removeElement);
 }
 
